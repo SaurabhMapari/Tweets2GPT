@@ -7,19 +7,19 @@ from flask import Flask, render_template, request, jsonify
 # from bard import get_correct_topic_bard, predict_sentiment_bard
 from datetime import datetime, timedelta
 from chatgpt import get_combined_analysis_and_token_usage,get_Action,get_sentiment,get_topic
-import mysql.connector
+# import mysql.connector
 
 app = Flask(__name__)
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 # Database connection function
-def get_db_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="tweet2gpt"
-    )
+# def get_db_connection():
+#     return mysql.connector.connect(
+#         host="localhost",
+#         user="root",
+#         password="root",
+#         database="tweet2gpt"
+#     )
 
 @app.route('/')
 def index():
@@ -56,19 +56,19 @@ def analyze_tweet():
 
     ################################################################################################################
      # Current date and time
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Insert data into database
-    db_connection = get_db_connection()
-    cursor = db_connection.cursor()
-    insert_query = """
-        INSERT INTO tweets (text, topic, sentiment, source_created_at, source) 
-        VALUES (%s, %s, %s, %s, 'local')
-    """
-    cursor.execute(insert_query, (tweet, topic, sentiment, current_time))
-    db_connection.commit()
-    cursor.close()
-    db_connection.close()
+    # db_connection = get_db_connection()
+    # cursor = db_connection.cursor()
+    # insert_query = """
+    #     INSERT INTO tweets (text, topic, sentiment, source_created_at, source) 
+    #     VALUES (%s, %s, %s, %s, 'local')
+    # """
+    # cursor.execute(insert_query, (tweet, topic, sentiment, current_time))
+    # db_connection.commit()
+    # cursor.close()
+    # db_connection.close()
 
     return jsonify(sentiment=sentiment, topic=topic, action = action)
 
