@@ -72,9 +72,9 @@ def analyze_tweet():
 
     return jsonify(sentiment=sentiment, topic=topic, action = action)
 
-import os
+# import os
 
-webbrowser.open_new('http://127.0.0.1:5000/')
+# webbrowser.open_new('http://127.0.0.1:5000/')
 
-if __name__ == '__main__':
-  app.run(debug=False)
+# if __name__ == '__main__':
+#   app.run(debug=False)
