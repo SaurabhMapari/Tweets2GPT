@@ -1,0 +1,59 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+    <title>Thameslink Maintenance Department</title>
+</head>
+
+<body>
+    <div class="content-container">
+        <div class="form-container">
+            <h1>Thameslink Maintenance Department</h1>
+            <form id="tweetForm">
+                <textarea id="tweetInput" rows="4" cols="50" placeholder="Enter tweet here..."></textarea><br>
+                <button type="submit">Get Sentiment and Topic</button>
+                <div id="result"></div>
+            </form>
+            <div class="credits">Developed by Digital Dynamos</div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('tweetForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            var tweet = document.getElementById('tweetInput').value;
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div id="loading-bar-spinner" class="spinner"><div class="spinner-icon"></div></div>';
+
+            fetch('/analyze_tweet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tweet: tweet })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var sentimentClass = 'sentiment-' + data.sentiment.toLowerCase();
+                    var sentimentText = data.sentiment.charAt(0).toUpperCase() + data.sentiment.slice(1);
+                    var topicText = data.topic.charAt(0).toUpperCase() + data.topic.slice(1);
+                    var actionText = data.action.charAt(0).toUpperCase() + data.action.slice(1);
+
+                    resultDiv.innerHTML = '<div class="' + sentimentClass + '">' + 'Sentiment: ' + sentimentText + '</div>';
+                    resultDiv.innerHTML += '<div class="topic-heading">Topic: </div><div>' + topicText + '</div>';
+                    resultDiv.innerHTML += '<div class="action-heading">Action: </div><div class="action-text">' + actionText + '</div>';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultDiv.textContent = 'Error loading sentiment and topic';
+                });
+        });
+    </script>
+
+</body>
+
+</html>
