@@ -13,7 +13,7 @@ def get_combined_analysis_and_token_usage(tweet):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are an AI trained to analyze social media content. Provide concise one-word answers for the given tasks."},
+            {"role": "system", "content": "You are an AI trained to analyze social media content. Provide concise answers for the given tasks."},
             {"role": "user", "content": prompt}
         ]
     )
